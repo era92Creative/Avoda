@@ -355,3 +355,17 @@
 
 /* The crimson block carries a label above its heading on this page. */
 .eq-final-text .eq-call-label { margin-bottom: 0.75rem; }
+
+/* The hero eyebrow is crimson on a dark photo, which the client found hard to
+   read. An opaque pill behind it gives the text a consistent backdrop instead
+   of relying on whatever the photo happens to be doing underneath. The dashes
+   the .eyebrow class draws either side are hidden, since they'd run into it. */
+.eq-eyebrow-pill {
+  background: var(--paper);
+  color: var(--red);
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  margin-bottom: 1.1rem;
+}
+.eq-eyebrow-pill::before,
+.eq-eyebrow-pill::after { display: none; }

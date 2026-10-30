@@ -1,0 +1,17 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>f</title></head><body><pre id="o">x</pre><div id="h"></div>
+<script>
+var ws=[320,390,560,768,1024,1440,1920];
+var fs=ws.map(function(w){var f=document.createElement('iframe');f.style.cssText='width:'+w+'px;height:1000px;border:0';f.src='/index.html';document.getElementById('h').appendChild(f);return f;});
+setTimeout(function(){
+ document.getElementById('o').textContent=fs.map(function(f,i){
+  var d=f.contentDocument, de=d.documentElement;
+  var nav=d.querySelector('.footer-legal'), bot=d.querySelector('.footer-bottom');
+  var r=nav.getBoundingClientRect(), br=bot.getBoundingClientRect();
+  var ov=de.scrollWidth>de.clientWidth+1;
+  return '  '+String(ws[i]).padStart(4)+'px  legalNav='+Math.round(r.width)+'px @'
+   +getComputedStyle(nav.querySelector('a')).fontSize
+   +'  insideFooter='+(r.left>=br.left-1 && r.right<=br.right+1)
+   +'  overflow='+(ov?'YES':'no');
+ }).join('\n');
+},8000);
+</script></body></html>

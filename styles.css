@@ -1051,6 +1051,12 @@ input[type="range"] { accent-color: var(--red); padding: 0; }
   gap: 0.5rem 1.5rem;
   justify-content: space-between;
 }
+/* Privacy / Terms sit in the footer's bottom strip, inheriting its small size
+   and muted colour so they stay secondary to the main footer nav above. */
+.footer-legal { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; }
+.footer-legal a { color: inherit; text-decoration: none; }
+.footer-legal a:hover { color: #fff; text-decoration: underline; }
+.footer-legal a[aria-current="page"] { color: #cfcccb; }
 
 /* ---------- Scroll-driven process line drawing (accumulating steps) ---------- */
 .scrolly-section { padding-top: 5.5rem; padding-bottom: 0; }
@@ -1611,6 +1617,12 @@ main section[id] { scroll-margin-top: 96px; }
    the section, with the building photo beneath it. */
 
 /* Terms page spacing */
+/* Legal-page headings: the shared .process-hero cap of 18ch wrapped
+   "Terms of Service" onto a second line. Let the container do the limiting
+   instead. Deliberately no white-space:nowrap - that would overflow if the
+   heading font changes. */
+.page-legal .process-hero h1 { max-width: none; }
+
 .terms-section .wrap + .wrap {
   margin-top: 2.5rem; /* space between each block (paragraph → next heading) */
 }
