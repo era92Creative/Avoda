@@ -122,41 +122,17 @@
         <div>
           <h2 id="contact-h">Send a message</h2>
           <hr class="rule">
-          <form data-demo id="contact-form" novalidate>
-            <!-- Route submissions to the appropriate inbox (sales@ / operations@).
-                 Replace with JotForm embed or a real endpoint — see README. -->
-            <div class="form-grid">
-              <div class="field">
-                <label for="c-name">Name</label>
-                <input type="text" id="c-name" name="name" required autocomplete="name" placeholder="Your name">
-              </div>
-              <div class="field">
-                <label for="c-email">Email</label>
-                <input type="email" id="c-email" name="email" required autocomplete="email" placeholder="you@example.com">
-              </div>
-              <div class="field">
-                <label for="c-phone">Phone</label>
-                <input type="tel" id="c-phone" name="phone" required autocomplete="tel" placeholder="330-555-0100">
-              </div>
-              <div class="field">
-                <label for="c-topic">What's this about?</label>
-                <select id="c-topic" name="topic" required>
-                  <option value="" selected disabled>Choose a topic…</option>
-                  <option>New project inquiry</option>
-                  <option>Question about an active project</option>
-                  <option>Trade partner / employment</option>
-                  <option>Something else</option>
-                </select>
-              </div>
-              <div class="field full">
-                <label for="c-message">Message</label>
-                <textarea id="c-message" name="message" required placeholder="How can we help?"></textarea>
-              </div>
-              <div class="full">
-                <button class="btn btn-primary" type="submit">Send Message</button>
-              </div>
-            </div>
-          </form>
+          <!-- Live Jotform (form id 263005755586160). The jsform embed writes the
+               form in place, so it must stay inline here rather than being
+               deferred to the end of the page. -->
+          <div class="jotform-embed">
+            <script type="text/javascript" src="https://form.jotform.com/jsform/263005755586160"></script>
+            <noscript>
+              <p>This form needs JavaScript. You can also email
+                <a href="mailto:sales@avodahcontractors.com">sales@avodahcontractors.com</a>
+                or call <a href="tel:+13306011324">330-601-1324</a>.</p>
+            </noscript>
+          </div>
         </div>
         <div>
           <h2>Reach us directly</h2>
