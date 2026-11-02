@@ -41,17 +41,21 @@
     # downloaded without ever filling in the form, defeating the lead magnet.
     X-Robots-Tag = "noindex, nofollow"
 
-# styles.css and script.js are not content-hashed, so a long TTL would strand
-# visitors on an old build after an edit.
+# The stylesheets and scripts are not content-hashed, so ANY TTL can pair a
+# freshly revalidated HTML page with a stale stylesheet — which is how the
+# equestrian CTA heading rendered crimson-on-crimson for up to an hour after a
+# deploy. Revalidate on every request, like the HTML: the ETag still answers
+# 304 with no body, so repeat visits cost one conditional request, not a
+# re-download. Swap this for a long TTL only once the filenames are hashed.
 [[headers]]
   for = "/*.css"
   [headers.values]
-    Cache-Control = "public, max-age=3600, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/*.js"
   [headers.values]
-    Cache-Control = "public, max-age=3600, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/*.html"

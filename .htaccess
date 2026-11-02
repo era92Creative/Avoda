@@ -57,8 +57,9 @@ ErrorDocument 404 /404.html
 
 # --- Caching -----------------------------------------------------------------
 # Photos, video and icons are immutable in practice: cache them hard.
-# styles.css and script.js are NOT content-hashed, so they get a short TTL —
-# otherwise a CSS change would not reach anyone who had already visited.
+# The stylesheets and scripts are NOT content-hashed, so any TTL at all can
+# pair a fresh HTML page with a stale stylesheet after a deploy. They
+# revalidate every request, like the HTML; the ETag answers 304 with no body.
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType image/jpeg              "access plus 1 year"
@@ -69,8 +70,8 @@ ErrorDocument 404 /404.html
   ExpiresByType video/mp4               "access plus 1 year"
   ExpiresByType font/woff2              "access plus 1 year"
   ExpiresByType application/pdf         "access plus 1 year"
-  ExpiresByType text/css                "access plus 1 hour"
-  ExpiresByType application/javascript  "access plus 1 hour"
+  ExpiresByType text/css                "access plus 0 seconds"
+  ExpiresByType application/javascript  "access plus 0 seconds"
   ExpiresByType text/html               "access plus 0 seconds"
 </IfModule>
 
@@ -79,7 +80,7 @@ ErrorDocument 404 /404.html
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
   <FilesMatch "\.(css|js)$">
-    Header set Cache-Control "public, max-age=3600, must-revalidate"
+    Header set Cache-Control "public, max-age=0, must-revalidate"
   </FilesMatch>
   # Google indexes PDFs. Keep the gated guide out of search results so it
   # can't be downloaded without going through the form.
