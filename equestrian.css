@@ -91,13 +91,17 @@
 .eq-steps-head { display: grid; gap: 1rem; margin-bottom: 2rem; }
 .eq-steps-head p:not(.eyebrow) { margin: 0; }
 @media (min-width: 900px) {
-  .eq-steps-head { grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: end; }
+  /* Top-aligned, not bottom-aligned: `end` pushed the paragraph down so it
+     started 50px below the eyebrow it sits beside. Both columns now begin on
+     the same line. */
+  .eq-steps-head { grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: center; }
 }
 .eq-steps-banner {
   width: 100%;
-  height: clamp(160px, 26vw, 340px);
-  object-fit: cover;
-  object-position: center bottom;
+  /* Shown whole, not cropped: the previous fixed height + object-fit:cover
+     cut the top and bottom off. The photo is already framed at 2:1, so
+     height:auto lets it sit at its natural ratio. */
+  height: auto;
   display: block;
 }
 .eq-steps { margin: 0; padding: 0; list-style: none; }
@@ -156,23 +160,36 @@
 @media (min-width: 860px) {
   .eq-guide { grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 4rem; }
 }
-/* --- Recent projects --- */
-.eq-projects { display: grid; gap: 2.5rem; }
-.eq-project img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
-.eq-project h3 {
-  margin: 1.25rem 0 0;
-  font-family: var(--font-body);
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: normal;
-  text-transform: none;
-}
-.eq-project > p { margin: 0.4rem 0 0; }
-.eq-stats { display: flex; flex-wrap: wrap; gap: 0.9rem 2.25rem; margin: 1.85rem 0 0; }
+/* --- Recent projects ---
+   The collage itself is the shared .project-case component from styles.css
+   (same as "Featured Custom Projects" on the Custom page); only the stat
+   list, which sits with the rest of the text above the collage, is specific
+   to this page. */
+.eq-stats { display: flex; flex-wrap: wrap; gap: 0.9rem 2.25rem; margin: 1.35rem 0 0; }
 .eq-stats dt { font-size: 0.8rem; color: var(--ink); }
 .eq-stats dd { margin: 0; font-size: 1.05rem; font-weight: 600; color: var(--black); }
-@media (min-width: 820px) { .eq-projects { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+
+/* Side by side, the two cases must share rows: a shorter description or a
+   shorter stat list would otherwise let one collage start above the other.
+   Subgrid hands both cases the same head and collage rows, so the text
+   blocks stay top-aligned and the photos start on the same line. Browsers
+   without subgrid fall back to the stacked default. */
+@media (min-width: 860px) {
+  .page-equestrian .project-cases { grid-template-rows: auto auto; }
+  .page-equestrian .project-case {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    /* A subgrid inherits the parent gap; zero it so .project-case-head's own
+       margin keeps the Custom page's spacing above the collage. */
+    row-gap: 0;
+  }
+  /* The shared head row is as tall as the longer description, so push each
+     stat list to the bottom of it: both then sit directly above their
+     collage, on the same line. */
+  .page-equestrian .project-case-head { display: flex; flex-direction: column; }
+  .page-equestrian .project-case-head .eq-stats { margin-top: auto; padding-top: 1.35rem; }
+}
 
 /* --- Final CTA --- */
 .eq-final { background: var(--red); color: #fff; padding: 4.25rem 0; }  /* matches .section rhythm */
@@ -194,6 +211,9 @@
    site uses near-black). Scoped to .section so the white heading on the
    crimson final-CTA block is unaffected. */
 .page-equestrian .section h2 { color: var(--red); }
+/* ...except on the crimson CTA banner, where crimson-on-crimson would be
+   invisible. .cta-banner h2 alone loses to the rule above on specificity. */
+.page-equestrian .section.cta-banner h2 { color: #fff; }
 
 /* ---------------------------------------------------------------------------
    Equestrian Build Guide signup (Mailchimp)
@@ -368,3 +388,4 @@
 }
 .eq-eyebrow-pill::before,
 .eq-eyebrow-pill::after { display: none; }
+
