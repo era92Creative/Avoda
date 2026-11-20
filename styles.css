@@ -1390,7 +1390,11 @@ input[type="range"] { accent-color: var(--red); padding: 0; }
    DOM, so a phone reads title-then-photo; only the desktop grid swaps. */
 @media (min-width: 768px) {
   .case--reverse > :first-child { grid-column: 2; grid-row: 1; }
-  .case--reverse > .ab-photo    { grid-column: 1; grid-row: 1; }
+  /* The photo is a bare <img class="ab-photo"> on its own, or wrapped in a
+     <figure class="photo-figure"> once it carries a caption. Both are valid
+     grid children here, so place either one. */
+  .case--reverse > .ab-photo,
+  .case--reverse > .photo-figure { grid-column: 1; grid-row: 1; }
 }
 .ab-logo { display: block; width: 100%; max-width: 220px; height: auto; margin-top: 1.75rem; }
 /* Shown whole rather than cropped to the text column, unlike the plain
@@ -1675,7 +1679,14 @@ main section[id] { scroll-margin-top: 96px; }
   margin-top: 2.5rem; /* space between each block (paragraph → next heading) */
 }
 
-/* photo caption */
-.photo-figure { margin: 0; text-align: center; }
-.photo-figure img { display: block; margin: 0 auto; max-width: 100%; height: auto; }
-.photo-figure figcaption { margin-top: 0.4rem; font-size: 0.8rem; }
+/* Captioned photo. Caption matches the gallery thumbnails' treatment and
+   stays left-aligned with the column it sits under. */
+.photo-figure { margin: 0; }
+.photo-figure img { display: block; max-width: 100%; height: auto; }
+.photo-figure figcaption {
+  margin-top: 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--ink);
+}
